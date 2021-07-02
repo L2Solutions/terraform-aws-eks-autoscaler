@@ -1,0 +1,23 @@
+name: Terraform Validation
+on:
+  [pull_request]
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    name: terraform-validate
+    defaults:
+      run:
+        working-directory: ./
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Terraform Validation
+        run: |
+          terraform fmt -check -recursive
+
+      - name: Run Checkov action
+        id: checkov
+        uses: bridgecrewio/checkov-action@v12.567.0
+        with:
+          directory: ./
