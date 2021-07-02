@@ -45,6 +45,7 @@ resource "helm_release" "nvidia-plugin" {
   repository = "https://nvidia.github.io/k8s-device-plugin"
   chart      = "nvidia-device-plugin"
 
+  // Prevents it crashing on non-gpu nodes
   set {
     name  = "failOnInitError"
     value = "false"
