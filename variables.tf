@@ -24,6 +24,12 @@ variable "deploy_autoscaler" {
   default     = true
 }
 
+variable "ca_version" {
+  type        = string
+  description = "Cluster-autoscaler helm release version"
+  default     = "9.9.2"
+}
+
 variable "autoscaler_tolerations" {
   type = list(object({
     key    = string
@@ -45,3 +51,22 @@ variable "autoscaler_namespace" {
   description = "Namespace of cluster autoscaler helm release"
   default     = "kube-system"
 }
+
+variable "deploy_nvda_plugin" {
+  type        = bool
+  description = "Deploys nvidia plugin to enable gpu nodes"
+  default     = false
+}
+
+variable "create_gpu_asg" {
+  type        = bool
+  description = "Creates gpu autoscaling groups"
+  default     = false
+}
+
+variable "nvda_version" {
+  type        = string
+  description = "Chart version of nvidia plugin helm release"
+  default     = "0.9.0"
+}
+
