@@ -44,4 +44,9 @@ resource "helm_release" "nvidia-plugin" {
   version    = local.nvda_version
   repository = "https://nvidia.github.io/k8s-device-plugin"
   chart      = "nvidia-device-plugin"
+
+  set {
+    name  = "failOnInitError"
+    value = "false"
+  }
 }
