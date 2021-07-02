@@ -31,6 +31,6 @@ resource "helm_release" "cluster-autoscaler" {
   version    = "9.9.2"
   repository = "https://kubernetes.github.io/autoscaler"
   chart      = "cluster-autoscaler"
-  values     = [autoscaler_release]
+  values     = [local.autoscaler_release]
 
 }
