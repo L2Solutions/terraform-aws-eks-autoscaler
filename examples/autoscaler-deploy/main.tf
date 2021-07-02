@@ -19,7 +19,7 @@ module "autoscaler" {
   autoscaler_tolerations = [{
     "key"    = "zone"
     "value"  = "true"
-    "effect" = "NO_SCHEDULE"
+    "effect" = "NoSchedule"
   }]
 
 
