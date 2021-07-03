@@ -28,12 +28,15 @@ Deploys configures IAM roles that allow a kubernetes cluster autoscaler helm rel
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_this"></a> [this](#module\_this) | terraform-aws-modules/autoscaling/aws | 4.4.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [aws_iam_instance_profile.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
 | [aws_iam_policy.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
@@ -43,6 +46,7 @@ No modules.
 | [aws_iam_policy_document.this_autoscaler](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.this_oidc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [aws_ssm_parameter.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 
 ## Inputs
 
@@ -56,10 +60,18 @@ No modules.
 | <a name="input_cluster_oidc_issuer_url"></a> [cluster\_oidc\_issuer\_url](#input\_cluster\_oidc\_issuer\_url) | The url generated when OIDC is configured with EKS. | `string` | n/a | yes |
 | <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | Kubernetes version | `string` | n/a | yes |
 | <a name="input_create_gpu_asg"></a> [create\_gpu\_asg](#input\_create\_gpu\_asg) | Creates gpu autoscaling groups | `bool` | `false` | no |
+| <a name="input_data_per_az"></a> [data\_per\_az](#input\_data\_per\_az) | Node labels, vpc zone ids and name per az. All other info is duplicated | <pre>list(object({<br>    name          = string<br>    vpc_zones_ids = list(string)<br>    node_labels   = list(map(string))<br>  }))</pre> | `[]` | no |
 | <a name="input_deploy_autoscaler"></a> [deploy\_autoscaler](#input\_deploy\_autoscaler) | Deploys cluster-autoscaler as a helm-release | `bool` | `true` | no |
 | <a name="input_deploy_nvda_plugin"></a> [deploy\_nvda\_plugin](#input\_deploy\_nvda\_plugin) | Deploys nvidia plugin to enable gpu nodes | `bool` | `false` | no |
+| <a name="input_gpu_ami"></a> [gpu\_ami](#input\_gpu\_ami) | GPU ami to use, defaults to eks optmized based on `cluster_version` | `string` | `null` | no |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | Instance type for gpu ASG | `string` | `"p2.xlarge"` | no |
+| <a name="input_max_size"></a> [max\_size](#input\_max\_size) | Max ASG size | `number` | `5` | no |
+| <a name="input_min_size"></a> [min\_size](#input\_min\_size) | Min ASG size | `number` | `0` | no |
 | <a name="input_name"></a> [name](#input\_name) | Unique name, used in ASG resources | `string` | n/a | yes |
 | <a name="input_nvda_version"></a> [nvda\_version](#input\_nvda\_version) | Chart version of nvidia plugin helm release | `string` | `"0.9.0"` | no |
+| <a name="input_root_block_device"></a> [root\_block\_device](#input\_root\_block\_device) | Pass through to ASG module | `list(map)` | <pre>[<br>  {<br>    "volume_size": "100",<br>    "volume_type": "gp2"<br>  }<br>]</pre> | no |
+| <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | List of security group ids | `list(string)` | `[]` | no |
+| <a name="input_worker_iam_role_name"></a> [worker\_iam\_role\_name](#input\_worker\_iam\_role\_name) | EKS worker iam role name | `string` | `null` | no |
 
 ## Outputs
 
