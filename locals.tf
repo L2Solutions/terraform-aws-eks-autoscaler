@@ -20,11 +20,7 @@ locals {
 
   data_per_az = var.create_gpu_asg ? { for value in var.data_per_az : value.name => {
     vpc_zone_identifier_ids = toset(value.vpc_zones_ids)
-
-    node_labels = [for key, value in value.node_labels : {
-      "key"   = key
-      "value" = value
-    }]
+    node_labels             = value.node_labels
   } } : {}
 
 
