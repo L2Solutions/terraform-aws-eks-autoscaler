@@ -1,3 +1,5 @@
+// Example config, no gaurantee to run without complete resource configuration
+
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
@@ -20,6 +22,8 @@ module "mycluster" {
   }]
 }
 
+data "aws_subnet" "east2a" {}
+data "aws_subnet" "east2b" {}
 
 module "autoscaler" {
   source = "../.."
@@ -28,7 +32,6 @@ module "autoscaler" {
   cluster_id              = module.mycluster.cluster_id
   cluster_oidc_issuer_url = module.mycluster.cluster_oidc_issuer_url
   cluster_version         = "1.20"
-
   autoscaler_tolerations = [{
     "key"    = "zone"
     "value"  = "true"
@@ -36,6 +39,7 @@ module "autoscaler" {
   }]
 
   //GPU ASG args
+  create_gpu_asg       = true
   max_size             = 10
   worker_iam_role_name = module.mycluster.worker_iam_role_name
   security_group_ids = [
