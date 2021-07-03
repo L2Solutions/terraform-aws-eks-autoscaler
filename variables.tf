@@ -70,3 +70,57 @@ variable "nvda_version" {
   default     = "0.9.0"
 }
 
+variable "gpu_ami" {
+  type        = string
+  description = "GPU ami to use, defaults to eks optmized based on `cluster_version`"
+  default     = null
+}
+
+variable "min_size" {
+  type        = number
+  description = "Min ASG size"
+  default     = 0
+}
+
+variable "max_size" {
+  type        = number
+  description = "Max ASG size"
+  default     = 5
+}
+
+variable "instance_type" {
+  description = "Instance type for gpu ASG"
+  type        = string
+  default     = "p2.xlarge"
+}
+
+variable "root_block_device" {
+  description = "Pass through to ASG module"
+  type        = list(map)
+  default = [{
+    volume_size = "100"
+    volume_type = "gp2"
+  }]
+}
+
+variable "data_per_az" {
+  description = "Node labels, vpc zone ids and name per az. All other info is duplicated"
+  type = list(object({
+    name          = string
+    vpc_zones_ids = list(string)
+    node_labels   = list(map(string))
+  }))
+  default = []
+}
+
+variable "worker_iam_role_name" {
+  type        = string
+  description = "EKS worker iam role name"
+  default     = null
+}
+
+variable "security_group_ids" {
+  description = "List of security group ids"
+  type        = list(string)
+  default     = []
+}
