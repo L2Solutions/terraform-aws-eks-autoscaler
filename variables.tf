@@ -108,7 +108,7 @@ variable "data_per_az" {
   type = list(object({
     name          = string
     vpc_zones_ids = list(string)
-    node_labels   = list(map(string))
+    node_labels   = map(string)
   }))
   default = []
 }

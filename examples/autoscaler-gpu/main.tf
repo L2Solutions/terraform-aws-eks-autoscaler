@@ -51,12 +51,12 @@ module "autoscaler" {
     {
       name         = "east2a"
       vpc_zone_ids = [data.aws_subnet.east2a.id]
-      node_labels  = [{ "k8szone" = "east2a" }]
+      node_labels  = { "k8szone" = "east2a" }
     },
     {
       name         = "east2b"
       vpc_zone_ids = [data.aws_subnet.east2b.id]
-      node_labels  = [{ "k8szone" = "east2b" }]
+      node_labels  = { "k8szone" = "east2b" }
     }
   ]
 
