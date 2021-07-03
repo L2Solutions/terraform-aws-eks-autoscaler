@@ -96,7 +96,7 @@ variable "instance_type" {
 
 variable "root_block_device" {
   description = "Pass through to ASG module"
-  type        = list(map)
+  type        = list(map(string))
   default = [{
     volume_size = "100"
     volume_type = "gp2"
