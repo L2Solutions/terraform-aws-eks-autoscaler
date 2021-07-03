@@ -20,7 +20,6 @@ module "this" {
 
   name                        = each.key
   create_asg                  = true
-  asg_name                    = each.key
   vpc_zone_identifier         = each.value.vpc_zone_identifier_ids
   health_check_type           = "EC2"
   min_size                    = 0
@@ -28,7 +27,7 @@ module "this" {
   desired_capacity            = local.max_size // Set equal to max_size so we don't scale down instances in use
   wait_for_capacity_timeout   = local.min_size
   associate_public_ip_address = true
-  iam_instance_profile        = local.iam_instance_profile
+  iam_instance_profile_name   = aws_iam_instance_profile.this.name
   lc_name                     = "${local.name}-config"
   image_id                    = data.aws_ssm_parameter.this.value
   instance_type               = local.instance_type
