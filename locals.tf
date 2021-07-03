@@ -13,7 +13,6 @@ locals {
   nvda_version            = var.nvda_version
   min_size                = var.min_size
   max_size                = var.max_size
-  gpu_ami                 = var.gpu_ami
   instance_type           = var.instance_type
   root_block_device       = var.root_block_device
   security_group_ids      = var.security_group_ids
