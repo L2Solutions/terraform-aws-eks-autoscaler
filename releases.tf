@@ -37,11 +37,11 @@ resource "helm_release" "cluster-autoscaler" {
 }
 
 resource "helm_release" "nvidia-plugin" {
-  count = local.deploy_nvda_plugin ? 1 : 0
+  count = local.deploy_nvidia_plugin ? 1 : 0
 
   name       = "nvidia-plugin"
   namespace  = "kube-system" # we should hard code this here
-  version    = local.nvda_version
+  version    = local.nvidia_version
   repository = "https://nvidia.github.io/k8s-device-plugin"
   chart      = "nvidia-device-plugin"
 
