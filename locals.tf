@@ -18,9 +18,9 @@ locals {
   security_group_ids      = var.security_group_ids
 
   groups = { for value in var.groups : value.name => {
-    subnets       = value.subnets != null ? toset(value.subnets) : toset(var.subnets)
+    subnets       = toset(lookup(value, "subnets", var.subnets))
     node_labels   = join(",", [for key, val in merge(var.node_labels, value.node_labels) : "${key}=${val}"])
-    instance_type = value.instance_type != null ? value.instance_type : var.instance_type
+    instance_type = lookup(value, "instance_type", var.instance_type)
   } }
 
 
