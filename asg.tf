@@ -4,8 +4,7 @@ resource "aws_iam_instance_profile" "this" {
 }
 
 locals {
-  default_gpu_ami = "/aws/service/eks/optimized-ami/${local.cluster_version}/amazon-linux-2-gpu/recommended/image_id"
-  gpu_ami         = var.gpu_ami != null ? var.gpu_ami : local.default_gpu_ami
+  gpu_ami = var.gpu_ami != null ? var.gpu_ami : "/aws/service/eks/optimized-ami/${local.cluster_version}/amazon-linux-2-gpu/recommended/image_id"
 }
 
 data "aws_ssm_parameter" "this" {

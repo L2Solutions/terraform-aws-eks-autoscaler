@@ -10,7 +10,8 @@ locals {
       "clusterName" = local.cluster_id
     }
     "extraArgs" = {
-      "expander" = "priority"
+      "expander"                    = "priority",
+      "balance-similar-node-groups" = true
     }
     "rbac" = {
       "serviceAccount" = {
