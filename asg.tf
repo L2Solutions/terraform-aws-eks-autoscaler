@@ -28,9 +28,8 @@ module "this" {
   wait_for_capacity_timeout   = local.min_size
   associate_public_ip_address = true
   iam_instance_profile_name   = aws_iam_instance_profile.this.name
-  lc_name                     = "${each.key}-config"
   lt_name                     = "${each.key}-template"
-  create_lc                   = true
+  use_lt                      = true
   create_lt                   = true
   image_id                    = data.aws_ssm_parameter.this.value
   instance_type               = each.value.instance_type
