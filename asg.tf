@@ -63,7 +63,7 @@ module "this" {
     },
     {
       key                 = "k8s.io/cluster-autoscaler/enabled"
-      value               = "TRUE"
+      value               = "true"
       propagate_at_launch = true
     },
     {
