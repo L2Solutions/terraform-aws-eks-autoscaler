@@ -52,7 +52,7 @@ variable "autoscaler_namespace" {
   default     = "kube-system"
 }
 
-variable "nvda_version" {
+variable "nvidia_version" {
   type        = string
   description = "Chart version of nvidia plugin helm release"
   default     = "0.9.0"
