@@ -66,6 +66,7 @@ Deploys configures IAM roles that allow a kubernetes cluster autoscaler helm rel
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | Max ASG size | `number` | `5` | no |
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | Min ASG size | `number` | `0` | no |
 | <a name="input_name"></a> [name](#input\_name) | Unique name, used in ASG resources | `string` | n/a | yes |
+| <a name="input_node_labels"></a> [node\_labels](#input\_node\_labels) | Global node labels | `map(string)` | `{}` | no |
 | <a name="input_nvidia_version"></a> [nvidia\_version](#input\_nvidia\_version) | Chart version of nvidia plugin helm release | `string` | `"0.9.0"` | no |
 | <a name="input_root_block_device"></a> [root\_block\_device](#input\_root\_block\_device) | Pass through to ASG module | `list(map(string))` | <pre>[<br>  {<br>    "volume_size": "100",<br>    "volume_type": "gp2"<br>  }<br>]</pre> | no |
 | <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | List of security group ids | `list(string)` | `[]` | no |
