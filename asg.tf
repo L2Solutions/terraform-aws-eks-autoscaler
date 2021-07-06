@@ -16,11 +16,11 @@ module "this" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "4.4.0"
 
-  for_each = local.data_per_az
+  for_each = local.groups
 
   name                        = each.key
   create_asg                  = true
-  vpc_zone_identifier         = each.value.vpc_zone_identifier_ids
+  vpc_zone_identifier         = each.value.subnets
   health_check_type           = "EC2"
   min_size                    = 0
   max_size                    = local.max_size
@@ -30,7 +30,7 @@ module "this" {
   iam_instance_profile_name   = aws_iam_instance_profile.this.name
   lc_name                     = "${local.name}-config"
   image_id                    = data.aws_ssm_parameter.this.value
-  instance_type               = local.instance_type
+  instance_type               = each.value.instance_type
   security_groups             = local.security_group_ids
   root_block_device           = local.root_block_device
 
@@ -40,7 +40,7 @@ module "this" {
     set -o xtrace
     /etc/eks/bootstrap.sh ${local.cluster_id} \
     --kubelet-extra-args \
-    '--node-labels=eks.amazonaws.com/nodegroup-image=,${data.aws_ssm_parameter.this.value},${join(",", [for key, value in each.value.node_labels : "${key}=${value}"])}'
+    '--node-labels=eks.amazonaws.com/nodegroup-image=,${data.aws_ssm_parameter.this.value},${each.value.node_labels}'
     EOF
   )
 
