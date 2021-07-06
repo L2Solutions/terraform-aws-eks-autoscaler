@@ -9,7 +9,7 @@ locals {
   autoscaler_tolerations  = var.autoscaler_tolerations
   autoscaler_nodeselector = var.autoscaler_nodeselector
   autoscaler_namespace    = var.autoscaler_namespace
-  deploy_nvidia_plugin    = length(var.groups) > 0
+  deploy_nvidia_plugin    = length(var.groups) > 0 || var.deploy_nvidia_plugin
   nvidia_version          = var.nvidia_version
   min_size                = var.min_size
   max_size                = var.max_size

@@ -60,9 +60,10 @@ Deploys configures IAM roles that allow a kubernetes cluster autoscaler helm rel
 | <a name="input_cluster_oidc_issuer_url"></a> [cluster\_oidc\_issuer\_url](#input\_cluster\_oidc\_issuer\_url) | The url generated when OIDC is configured with EKS. | `string` | n/a | yes |
 | <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | Kubernetes version | `string` | n/a | yes |
 | <a name="input_deploy_autoscaler"></a> [deploy\_autoscaler](#input\_deploy\_autoscaler) | Deploys cluster-autoscaler as a helm-release | `bool` | `true` | no |
+| <a name="input_deploy_nvidia_plugin"></a> [deploy\_nvidia\_plugin](#input\_deploy\_nvidia\_plugin) | Flag to deploy nvidia daemonset | `bool` | `false` | no |
 | <a name="input_gpu_ami"></a> [gpu\_ami](#input\_gpu\_ami) | GPU ami to use, defaults to eks optmized based on `cluster_version` | `string` | `null` | no |
 | <a name="input_groups"></a> [groups](#input\_groups) | Overrides per group | <pre>list(object({<br>    name          = string<br>    subnets       = optional(list(string))<br>    node_labels   = optional(map(string))<br>    instance_type = optional(string)<br>  }))</pre> | `[]` | no |
-| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | Instance type for gpu ASG | `string` | `"p2.xlarge"` | no |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | Instance type for ASG | `string` | `"t2.small"` | no |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | Max ASG size | `number` | `5` | no |
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | Min ASG size | `number` | `0` | no |
 | <a name="input_name"></a> [name](#input\_name) | Unique name, used in ASG resources | `string` | n/a | yes |

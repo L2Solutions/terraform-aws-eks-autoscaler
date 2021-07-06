@@ -125,3 +125,9 @@ variable "subnets" {
   type        = list(string)
   default     = []
 }
+
+variable "deploy_nvidia_plugin" {
+  description = "Flag to deploy nvidia daemonset"
+  default     = false
+  type        = bool
+}
