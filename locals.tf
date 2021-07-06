@@ -9,7 +9,7 @@ locals {
   autoscaler_tolerations  = var.autoscaler_tolerations
   autoscaler_nodeselector = var.autoscaler_nodeselector
   autoscaler_namespace    = var.autoscaler_namespace
-  deploy_nvda_plugin      = var.deploy_nvda_plugin || var.create_gpu_asg
+  deploy_nvda_plugin      = count(var.groups) > 0
   nvda_version            = var.nvda_version
   min_size                = var.min_size
   max_size                = var.max_size
@@ -17,10 +17,11 @@ locals {
   root_block_device       = var.root_block_device
   security_group_ids      = var.security_group_ids
 
-  data_per_az = var.create_gpu_asg ? { for value in var.data_per_az : value.name => {
-    vpc_zone_identifier_ids = toset(value.vpc_zones_ids)
-    node_labels             = value.node_labels
-  } } : {}
+  groups = { for value in var.groups : value.name => {
+    subnets       = value.subnets != null ? toset(value.subnets) : toset(var.subnets)
+    node_labels   = value.node_labels != null ? join(",", [for key, val in value.node_labels : "${key}=${val}"]) : ""
+    instance_type = value.instance_type != null ? value.instance_type : var.instance_type
+  } }
 
 
 }
