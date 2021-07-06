@@ -52,19 +52,7 @@ variable "autoscaler_namespace" {
   default     = "kube-system"
 }
 
-variable "deploy_nvda_plugin" {
-  type        = bool
-  description = "Deploys nvidia plugin to enable gpu nodes"
-  default     = false
-}
-
-variable "create_gpu_asg" {
-  type        = bool
-  description = "Creates gpu autoscaling groups"
-  default     = false
-}
-
-variable "nvda_version" {
+variable "nvidia_version" {
   type        = string
   description = "Chart version of nvidia plugin helm release"
   default     = "0.9.0"
@@ -103,12 +91,19 @@ variable "root_block_device" {
   }]
 }
 
-variable "data_per_az" {
-  description = "Node labels, vpc zone ids and name per az. All other info is duplicated"
+variable "node_labels" {
+  type        = map(string)
+  description = "Global node labels"
+  default     = {}
+}
+
+variable "groups" {
+  description = "Overrides per group"
   type = list(object({
     name          = string
-    vpc_zones_ids = list(string)
-    node_labels   = map(string)
+    subnets       = optional(list(string))
+    node_labels   = optional(map(string))
+    instance_type = optional(string)
   }))
   default = []
 }
@@ -121,6 +116,12 @@ variable "worker_iam_role_name" {
 
 variable "security_group_ids" {
   description = "List of security group ids"
+  type        = list(string)
+  default     = []
+}
+
+variable "subnets" {
+  description = "List of subnet ids"
   type        = list(string)
   default     = []
 }

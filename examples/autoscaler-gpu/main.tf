@@ -24,6 +24,7 @@ module "mycluster" {
 
 data "aws_subnet" "east2a" {}
 data "aws_subnet" "east2b" {}
+data "aws_subnet" "east2c" {}
 
 module "autoscaler" {
   source = "../.."
@@ -39,6 +40,11 @@ module "autoscaler" {
   }]
 
   //GPU ASG args
+  subnets = [
+    data.aws_subnet.east2a.id,
+    data.aws_subnet.east2b.id,
+    data.aws_subnet.east2c.id
+  ]
   create_gpu_asg       = true
   max_size             = 10
   worker_iam_role_name = module.mycluster.worker_iam_role_name
@@ -47,16 +53,17 @@ module "autoscaler" {
     module.mycluster.cluster_primary_security_group_id,
   ]
 
-  data_per_az = [
+  groups = [
     {
-      name         = "east2a"
-      vpc_zone_ids = [data.aws_subnet.east2a.id]
-      node_labels  = { "k8szone" = "east2a" }
+      name        = "east2a"
+      subnets     = [data.aws_subnet.east2a.id]
+      node_labels = { "k8szone" = "favzone" } # arbitrary node labels
     },
     {
-      name         = "east2b"
-      vpc_zone_ids = [data.aws_subnet.east2b.id]
-      node_labels  = { "k8szone" = "east2b" }
+      name          = "normal"
+      node_labels   = { "k8szone" = "othernodes" }
+      instance_type = "p4d.24xlarge"
+
     }
   ]
 
