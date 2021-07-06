@@ -91,6 +91,12 @@ variable "root_block_device" {
   }]
 }
 
+variable "node_labels" {
+  type        = map(string)
+  description = "Global node labels"
+  default     = {}
+}
+
 variable "groups" {
   description = "Overrides per group"
   type = list(object({
