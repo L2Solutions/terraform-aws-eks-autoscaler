@@ -117,4 +117,5 @@ variable "security_group_ids" {
 variable "subnets" {
   description = "List of subnet ids"
   type        = list(string)
+  default     = []
 }
