@@ -77,9 +77,9 @@ variable "max_size" {
 }
 
 variable "instance_type" {
-  description = "Instance type for gpu ASG"
+  description = "Instance type for ASG"
   type        = string
-  default     = "p2.xlarge"
+  default     = "t2.small"
 }
 
 variable "root_block_device" {
