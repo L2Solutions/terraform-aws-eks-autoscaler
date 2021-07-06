@@ -57,12 +57,12 @@ module "autoscaler" {
     {
       name        = "east2a"
       subnets     = [data.aws_subnet.east2a.id]
-      node_labels = { "k8szone" = "east2a" }
+      node_labels = { "k8szone" = "favzone" } # arbitrary node labels
     },
     {
       name          = "normal"
       node_labels   = { "k8szone" = "othernodes" }
-      instance_type = "p4d.24xlarg"
+      instance_type = "p4d.24xlarge"
 
     }
   ]

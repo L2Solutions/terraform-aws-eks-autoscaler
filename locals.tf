@@ -19,7 +19,7 @@ locals {
 
   groups = { for value in var.groups : value.name => {
     subnets       = value.subnets != null ? toset(value.subnets) : toset(var.subnets)
-    node_labels   = value.node_labels != null ? join(",", [for key, val in value.node_labels : "${key}=${val}"]) : ""
+    node_labels   = join(",", [for key, val in merge(var.node_labels, value.node_labels) : "${key}=${val}"])
     instance_type = value.instance_type != null ? value.instance_type : var.instance_type
   } }
 
