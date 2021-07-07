@@ -21,10 +21,10 @@ module "this" {
   create_asg                  = true
   vpc_zone_identifier         = each.value.subnets
   health_check_type           = "EC2"
-  min_size                    = 0
+  min_size                    = local.min_size
   max_size                    = local.max_size
   desired_capacity            = local.max_size // Set equal to max_size so we don't scale down instances in use
-  wait_for_capacity_timeout   = local.min_size
+  wait_for_capacity_timeout   = 0
   associate_public_ip_address = true
   iam_instance_profile_name   = aws_iam_instance_profile.this.name
   lt_name                     = "${each.key}-template"
