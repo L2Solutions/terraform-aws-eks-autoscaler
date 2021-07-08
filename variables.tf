@@ -58,12 +58,6 @@ variable "nvidia_version" {
   default     = "0.9.0"
 }
 
-variable "gpu_ami" {
-  type        = string
-  description = "GPU ami to use, defaults to eks optmized based on `cluster_version`"
-  default     = null
-}
-
 variable "min_size" {
   type        = number
   description = "Min ASG size"
@@ -73,7 +67,7 @@ variable "min_size" {
 variable "max_size" {
   type        = number
   description = "Max ASG size"
-  default     = 5
+  default     = 1
 }
 
 variable "instance_type" {
@@ -98,14 +92,30 @@ variable "node_labels" {
 }
 
 variable "groups" {
-  description = "Overrides per group"
+  description = "Overrides to global per group. Each group has `is_gpu` bool (false by default)"
   type = list(object({
     name          = string
     subnets       = optional(list(string))
     node_labels   = optional(map(string))
     instance_type = optional(string)
+    min_size      = optional(number)
+    max_size      = optional(number)
+
+    tags = optional(map(object({
+      value               = string
+      propagate_at_launch = optional(bool)
+    })))
   }))
   default = []
+}
+
+variable "tags" {
+  type = map(object({
+    value               = string
+    propagate_at_launch = optional(bool)
+  }))
+  default     = {}
+  description = "Global tags to apply to each ASG. `propagate_at_launch` defaults to true"
 }
 
 variable "worker_iam_role_name" {
