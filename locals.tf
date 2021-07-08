@@ -45,7 +45,7 @@ locals {
     }
   }
 
-  tags = merge(default_tags, var.tags)
+  tags = merge(local.default_tags, var.tags)
 
   gpu_instances = [
     "p2.xlarge", "p2.8xlarge", "p2.16xlarge",
