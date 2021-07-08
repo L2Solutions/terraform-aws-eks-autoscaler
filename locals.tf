@@ -57,7 +57,7 @@ locals {
   ]
 
   groups = { for value in var.groups : value.name => {
-    subnets       = toset(value.subnets != null ? value.subnets : var.subnets))
+    subnets       = toset(value.subnets != null ? value.subnets : var.subnets)
     node_labels   = join(",", [for key, val in merge(var.node_labels, value.node_labels) : "${key}=${val}"])
     instance_type = value.instance_type != null ? value.instance_type : var.instance_type
     is_gpu        = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
