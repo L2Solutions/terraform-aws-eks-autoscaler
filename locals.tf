@@ -57,17 +57,17 @@ locals {
   ]
 
   groups = { for value in var.groups : value.name => {
-    subnets       = toset(lookup(value, "subnets", var.subnets))
+    subnets       = toset(value.subnets != null ? value.subnets : var.subnets))
     node_labels   = join(",", [for key, val in merge(var.node_labels, value.node_labels) : "${key}=${val}"])
-    instance_type = lookup(value, "instance_type", var.instance_type)
-    is_gpu        = contains(local.gpu_instances, lookup(value, "instance_type", var.instance_type))
-    min_size      = lookup(value, "min_size", local.min_size)
-    max_size      = lookup(value, "max_size", local.max_size)
+    instance_type = value.instance_type != null ? value.instance_type : var.instance_type
+    is_gpu        = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
+    min_size      = value.min_size != null ? value.min_size : local.min_size
+    max_size      = value.max_size != null ? value.max_size : local.max_size
 
-    tags = [for key, value in merge(local.tags, lookup(value, "tags", {})) : {
+    tags = [for key, value in merge(local.tags, value.tags != null ? value.tags : {}) : {
       "key"                 = key
       "value"               = value.value
-      "propagate_at_launch" = lookup(value, "propagate_at_launch", true)
+      "propagate_at_launch" = value.propagate_at_launch != null ? value.propagate_at_launch : true
     }]
   } }
 
