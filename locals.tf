@@ -61,8 +61,8 @@ locals {
     node_labels   = join(",", [for key, val in merge(var.node_labels, value.node_labels) : "${key}=${val}"])
     instance_type = lookup(value, "instance_type", var.instance_type)
     is_gpu        = contains(local.gpu_instances, lookup(value, "instance_type", var.instance_type))
-    min_size      = lookup(value, "min_size", var.min_size)
-    max_size      = lookup(value, "max_size", var.max_size)
+    min_size      = lookup(value, "min_size", local.min_size)
+    max_size      = lookup(value, "max_size", local.max_size)
 
     tags = [for key, value in merge(local.tags, lookup(value, "tags", {})) : {
       "key"                 = key
