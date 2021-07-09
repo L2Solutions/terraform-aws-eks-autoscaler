@@ -27,9 +27,9 @@ module "this" {
   wait_for_capacity_timeout   = 0
   associate_public_ip_address = true
   iam_instance_profile_name   = aws_iam_instance_profile.this.name
-  lt_name                     = "${each.key}-template"
-  use_lt                      = true
-  create_lt                   = true
+  lc_name                     = "${each.key}-template"
+  use_lc                      = true
+  create_lc                   = true
   image_id                    = each.value.is_gpu ? data.aws_ssm_parameter.this_gpu.value : data.aws_ssm_parameter.this.value
   instance_type               = each.value.instance_type
   security_groups             = local.security_group_ids
