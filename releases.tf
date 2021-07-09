@@ -10,8 +10,11 @@ locals {
       "clusterName" = local.cluster_id
     }
     "extraArgs" = {
-      "expander"                    = "priority",
-      "balance-similar-node-groups" = true
+      "expander"                      = "priority"
+      "balance-similar-node-groups"   = true
+      "skip-nodes-with-system-pods"   = false
+      "skip-nodes-with-local-storage" = false
+      "expander"                      = "least-waste"
     }
     "rbac" = {
       "serviceAccount" = {
