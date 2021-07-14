@@ -63,7 +63,7 @@ locals {
     is_gpu        = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
     min_size      = value.min_size != null ? value.min_size : local.min_size
     max_size      = value.max_size != null ? value.max_size : local.max_size
-    taints        = join(",", [for each in concat(var.taints, value.taints) : "${each.key}=${each.value}:${each.effect}"])
+    taints        = join(",", [for each in concat(var.taints, value.taints != null ? value.taints : []) : "${each.key}=${each.value}:${each.effect}"])
 
     // Need to merge node labels and taints as tags so CA can see them on the ASG config
     tags = concat(
@@ -77,7 +77,7 @@ locals {
         "value"               = val
         "propagate_at_launch" = true
       }],
-      [for each in concat(var.taints, value.taints) : {
+      [for each in concat(var.taints, value.taints != null ? value.taints : []) : {
         "key"                 = "k8s.io/cluster-autoscaler/node-template/taint/${each.key}"
         "value"               = "${each.value}:${each.effect}"
         "propagate_at_launch" = true
