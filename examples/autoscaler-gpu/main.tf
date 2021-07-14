@@ -68,11 +68,11 @@ module "autoscaler" {
       node_labels = {
         "resource"     = "gpu"
       }
-      taints = [{
-        key    = "gpu-only"
+      taints = {
+        "gpu-only" = {
         value  = true
         effect = "NoSchedule"
-      }]
+      }}
     }
   ]
 
