@@ -66,7 +66,7 @@ locals {
     taints        = join(",", [for key, val in merge(var.taints, value.taints) : "${key}=${val}"])
 
     // Need to merge node labels and taints as tags so CA can see them on the ASG config
-    tags = merge(
+    tags = concat(
       [for key, value in merge(local.tags, value.tags != null ? value.tags : {}) : {
         "key"                 = key
         "value"               = value.value
