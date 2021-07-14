@@ -24,8 +24,6 @@ locals {
     propagate_at_launch = true
   }]
 
-
-
   default_tags = {
     "kubernetes.io/cluster/${local.cluster_id}" = {
       value               = "owned"
@@ -45,8 +43,7 @@ locals {
     }
   }
 
-  tags   = merge(local.default_tags, var.tags)
-  taints = var.taints
+  tags = merge(local.default_tags, var.tags)
 
   gpu_instances = [
     "p2.xlarge", "p2.8xlarge", "p2.16xlarge",
@@ -64,8 +61,8 @@ locals {
     is_gpu         = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
     min_size       = value.min_size != null ? value.min_size : local.min_size
     max_size       = value.max_size != null ? value.max_size : local.max_size
-    taints         = join(",", [for each in concat(local.taints, value.taints != null ? value.taints : []) : "${each.key}=${each.value}:${each.effect}"])
-    registertaints = length(concat(local.taints, value.taints != null ? value.taints : [])) > 0 ? "--register-with-taints" : ""
+    taints         = join(",", [for key, val in merge(local.taints, value.taints) : "${key}=${val.value}:${val.effect}"])
+    registertaints = merge(local.taints, value.taints) != {} ? "--register-with-taints" : ""
 
     // Need to merge node labels and taints as tags so CA can see them on the ASG config
     tags = concat(
@@ -79,9 +76,9 @@ locals {
         "value"               = val
         "propagate_at_launch" = true
       }],
-      [for each in concat(local.taints, value.taints != null ? value.taints : []) : {
-        "key"                 = "k8s.io/cluster-autoscaler/node-template/taint/${each.key}"
-        "value"               = "${each.value}:${each.effect}"
+      [for key, val in merge(local.taints, value.taints) : {
+        "key"                 = "k8s.io/cluster-autoscaler/node-template/taint/${key}"
+        "value"               = "${val.value}:${val.effect}"
         "propagate_at_launch" = true
       }]
     )
