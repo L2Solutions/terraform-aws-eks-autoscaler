@@ -42,7 +42,7 @@ module "this" {
     set -o xtrace
     /etc/eks/bootstrap.sh ${local.cluster_id} \
     --kubelet-extra-args \
-    '--node-labels=eks.amazonaws.com/nodegroup-image=${data.aws_ssm_parameter.this.value},${each.value.node_labels} ${join("=", each.value.registertaints, each.value.taints)}'
+    '--node-labels=eks.amazonaws.com/nodegroup-image=${data.aws_ssm_parameter.this.value},${each.value.node_labels} ${join("=", [each.value.registertaints, each.value.taints])}'
     EOF
   )
 
