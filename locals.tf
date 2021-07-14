@@ -64,7 +64,7 @@ locals {
     is_gpu         = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
     min_size       = value.min_size != null ? value.min_size : local.min_size
     max_size       = value.max_size != null ? value.max_size : local.max_size
-    taints         = join(",", [for each in concat(local.taints, value.taints != null ? value.taints : [])) : "${each.key}=${each.value}:${each.effect}"])
+    taints         = join(",", [for each in concat(local.taints, value.taints != null ? value.taints : []) : "${each.key}=${each.value}:${each.effect}"])
     registertaints = length(concat(local.taints, value.taints != null ? value.taints : [])) > 0 ? "--register-with-taints" : ""
 
     // Need to merge node labels and taints as tags so CA can see them on the ASG config
