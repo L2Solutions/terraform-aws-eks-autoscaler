@@ -11,6 +11,7 @@ data "aws_ssm_parameter" "this_gpu" {
   name = local.ami_gpu
 }
 
+
 module "this" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "4.4.0"
@@ -41,7 +42,7 @@ module "this" {
     set -o xtrace
     /etc/eks/bootstrap.sh ${local.cluster_id} \
     --kubelet-extra-args \
-    '--node-labels=eks.amazonaws.com/nodegroup-image=${data.aws_ssm_parameter.this.value},${each.value.node_labels} --register-with-taints=${each.value.taints}'
+    '--node-labels=eks.amazonaws.com/nodegroup-image=${data.aws_ssm_parameter.this.value},${each.value.node_labels} ${join("=", each.registertaints, each.value.taints)}'
     EOF
   )
 
