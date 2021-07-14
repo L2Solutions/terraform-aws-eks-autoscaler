@@ -62,7 +62,7 @@ locals {
     min_size       = value.min_size != null ? value.min_size : local.min_size
     max_size       = value.max_size != null ? value.max_size : local.max_size
     taints         = join(",", [for key, val in merge(var.taints, value.taints) : "${key}=${val.value}:${val.effect}"])
-    registertaints = merge(var.taints, value.taints) != {} ? "--register-with-taints" : ""
+    registertaints = merge(var.taints, value.taints) != null ? "--register-with-taints" : ""
 
     // Need to merge node labels and taints as tags so CA can see them on the ASG config
     tags = concat(
