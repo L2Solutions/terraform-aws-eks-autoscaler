@@ -100,7 +100,12 @@ variable "groups" {
     instance_type = optional(string)
     min_size      = optional(number)
     max_size      = optional(number)
-    taints        = optional(map(string))
+
+    taints = optional(list(object({
+      key    = string
+      value  = string
+      effect = string
+    })))
 
     tags = optional(map(object({
       value               = string
@@ -111,8 +116,12 @@ variable "groups" {
 }
 
 variable "taints" {
-  type        = map(string)
-  default     = {}
+  type = list(object({
+    key    = string
+    value  = string
+    effect = string
+  }))
+  default     = []
   description = "Taints to apply globally to all ASGs"
 }
 
