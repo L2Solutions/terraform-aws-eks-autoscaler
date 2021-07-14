@@ -92,7 +92,7 @@ variable "node_labels" {
 }
 
 variable "groups" {
-  description = "Overrides to global per group. Each group has `is_gpu` bool (false by default)"
+  description = "Overrides to global per group. Will detect GPU instance from built in list."
   type = list(object({
     name          = string
     subnets       = optional(list(string))
@@ -100,6 +100,7 @@ variable "groups" {
     instance_type = optional(string)
     min_size      = optional(number)
     max_size      = optional(number)
+    taints        = optional(map(string))
 
     tags = optional(map(object({
       value               = string
@@ -107,6 +108,12 @@ variable "groups" {
     })))
   }))
   default = []
+}
+
+variable "taints" {
+  type        = map(string)
+  default     = {}
+  description = "Taints to apply globally to all ASGs"
 }
 
 variable "tags" {
