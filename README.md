@@ -62,7 +62,7 @@ Deploys configures IAM roles that allow a kubernetes cluster autoscaler helm rel
 | <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | Kubernetes version | `string` | n/a | yes |
 | <a name="input_deploy_autoscaler"></a> [deploy\_autoscaler](#input\_deploy\_autoscaler) | Deploys cluster-autoscaler as a helm-release | `bool` | `true` | no |
 | <a name="input_deploy_nvidia_plugin"></a> [deploy\_nvidia\_plugin](#input\_deploy\_nvidia\_plugin) | Flag to deploy nvidia daemonset | `bool` | `false` | no |
-| <a name="input_groups"></a> [groups](#input\_groups) | Overrides to global per group. Each group has `is_gpu` bool (false by default) | <pre>list(object({<br>    name          = string<br>    subnets       = optional(list(string))<br>    node_labels   = optional(map(string))<br>    instance_type = optional(string)<br>    min_size      = optional(number)<br>    max_size      = optional(number)<br><br>    tags = optional(map(object({<br>      value               = string<br>      propagate_at_launch = optional(bool)<br>    })))<br>  }))</pre> | `[]` | no |
+| <a name="input_groups"></a> [groups](#input\_groups) | Overrides to global per group. Will detect GPU instance from built in list. | <pre>list(object({<br>    name          = string<br>    subnets       = optional(list(string))<br>    node_labels   = optional(map(string))<br>    instance_type = optional(string)<br>    min_size      = optional(number)<br>    max_size      = optional(number)<br>    taints        = optional(map(string))<br><br>    tags = optional(map(object({<br>      value               = string<br>      propagate_at_launch = optional(bool)<br>    })))<br>  }))</pre> | `[]` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | Instance type for ASG | `string` | `"t2.small"` | no |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | Max ASG size | `number` | `1` | no |
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | Min ASG size | `number` | `0` | no |
@@ -73,6 +73,7 @@ Deploys configures IAM roles that allow a kubernetes cluster autoscaler helm rel
 | <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | List of security group ids | `list(string)` | `[]` | no |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | List of subnet ids | `list(string)` | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Global tags to apply to each ASG. `propagate_at_launch` defaults to true | <pre>map(object({<br>    value               = string<br>    propagate_at_launch = optional(bool)<br>  }))</pre> | `{}` | no |
+| <a name="input_taints"></a> [taints](#input\_taints) | Taints to apply globally to all ASGs | `map(string)` | `{}` | no |
 | <a name="input_worker_iam_role_name"></a> [worker\_iam\_role\_name](#input\_worker\_iam\_role\_name) | EKS worker iam role name | `string` | `null` | no |
 
 ## Outputs

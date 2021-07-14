@@ -63,12 +63,26 @@ locals {
     is_gpu        = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
     min_size      = value.min_size != null ? value.min_size : local.min_size
     max_size      = value.max_size != null ? value.max_size : local.max_size
+    taints        = join(",", [for key, val in merge(var.taints, value.taints) : "${key}=${val}"])
 
-    tags = [for key, value in merge(local.tags, value.tags != null ? value.tags : {}) : {
-      "key"                 = key
-      "value"               = value.value
-      "propagate_at_launch" = value.propagate_at_launch != null ? value.propagate_at_launch : true
-    }]
+    // Need to merge node labels and taints as tags so CA can see them on the ASG config
+    tags = merge(
+      [for key, value in merge(local.tags, value.tags != null ? value.tags : {}) : {
+        "key"                 = key
+        "value"               = value.value
+        "propagate_at_launch" = value.propagate_at_launch != null ? value.propagate_at_launch : true
+      }],
+      [for key, val in merge(var.node_labels, value.node_labels) : {
+        "key"                 = "k8s.io/cluster-autoscaler/node-template/label/${key}"
+        "value"               = val
+        "propagate_at_launch" = true
+      }],
+      [for key, val in merge(var.taints, value.taints) : {
+        "key"                 = "k8s.io/cluster-autoscaler/node-template/taint/${key}"
+        "value"               = val
+        "propagate_at_launch" = true
+      }]
+    )
   } }
 
 
