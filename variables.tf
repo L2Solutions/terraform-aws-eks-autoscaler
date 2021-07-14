@@ -119,7 +119,7 @@ variable "taints" {
     value  = string
     effect = string
   }))
-  default     = {}
+  default     = null
   description = "Taints to apply globally to all ASGs."
 }
 
