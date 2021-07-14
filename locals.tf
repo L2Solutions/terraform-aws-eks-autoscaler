@@ -45,7 +45,8 @@ locals {
     }
   }
 
-  tags = merge(local.default_tags, var.tags)
+  tags   = merge(local.default_tags, var.tags)
+  taints = var.taints
 
   gpu_instances = [
     "p2.xlarge", "p2.8xlarge", "p2.16xlarge",
@@ -57,17 +58,18 @@ locals {
   ]
 
   groups = { for value in var.groups : value.name => {
-    subnets       = toset(value.subnets != null ? value.subnets : var.subnets)
-    node_labels   = join(",", [for key, val in merge(var.node_labels, value.node_labels) : "${key}=${val}"])
-    instance_type = value.instance_type != null ? value.instance_type : var.instance_type
-    is_gpu        = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
-    min_size      = value.min_size != null ? value.min_size : local.min_size
-    max_size      = value.max_size != null ? value.max_size : local.max_size
-    taints        = join(",", [for each in concat(var.taints, value.taints != null ? value.taints : []) : "${each.key}=${each.value}:${each.effect}"])
+    subnets        = toset(value.subnets != null ? value.subnets : var.subnets)
+    node_labels    = join(",", [for key, val in merge(var.node_labels, value.node_labels) : "${key}=${val}"])
+    instance_type  = value.instance_type != null ? value.instance_type : var.instance_type
+    is_gpu         = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
+    min_size       = value.min_size != null ? value.min_size : local.min_size
+    max_size       = value.max_size != null ? value.max_size : local.max_size
+    taints         = join(",", [for each in concat(local.taints, defaults(value.taints, [])) : "${each.key}=${each.value}:${each.effect}"])
+    registertaints = length(concat(local.taints, defaults(value.taints, []))) > 0 ? "--register-with-taints" : ""
 
     // Need to merge node labels and taints as tags so CA can see them on the ASG config
     tags = concat(
-      [for key, value in merge(local.tags, value.tags != null ? value.tags : {}) : {
+      [for key, value in merge(local.tags, defaults(value.tags, {})) : {
         "key"                 = key
         "value"               = value.value
         "propagate_at_launch" = value.propagate_at_launch != null ? value.propagate_at_launch : true
@@ -77,7 +79,7 @@ locals {
         "value"               = val
         "propagate_at_launch" = true
       }],
-      [for each in concat(var.taints, value.taints != null ? value.taints : []) : {
+      [for each in concat(local.taints, defaults(value.taints, [])) : {
         "key"                 = "k8s.io/cluster-autoscaler/node-template/taint/${each.key}"
         "value"               = "${each.value}:${each.effect}"
         "propagate_at_launch" = true
