@@ -87,12 +87,12 @@ variable "root_block_device" {
 
 variable "node_labels" {
   type        = map(string)
-  description = "Global node labels"
+  description = "Global node labels for ASG"
   default     = {}
 }
 
 variable "groups" {
-  description = "Overrides to global per group. Will detect GPU instance from built in list."
+  description = "Overrides to global ASG per group. Will detect GPU instance from built in list."
   type = list(object({
     name          = string
     subnets       = optional(list(string))
@@ -154,4 +154,10 @@ variable "deploy_nvidia_plugin" {
   description = "Flag to deploy nvidia daemonset"
   default     = false
   type        = bool
+}
+
+variable "gpu_node_labels" {
+  default     = {}
+  type        = map(string)
+  description = "Node labels for Nvidia Daemon helm chart."
 }
