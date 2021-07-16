@@ -50,13 +50,8 @@ resource "helm_release" "nvidia-plugin" {
   chart      = "nvidia-device-plugin"
 
   // Prevents it crashing on non-gpu nodes
-  set {
-    name  = "failOnInitError"
-    value = "false"
-  }
-
-  set {
-    name  = "nodeSelector"
-    value = local.gpu_node_labels
-  }
+  values = yamlencode({
+    failOnInitError = false
+    nodeSelector    = local.gpu_node_labels
+  })
 }
