@@ -85,6 +85,6 @@ locals {
     )
   } }
 
-  gpu_node_labels = merge(var.gpu_node_labels, { for each in setintersection([for key, value in local.groups : value.node_labels_raw if value.is_gpu]) : each.key => each.value })
+  gpu_node_labels = var.gpu_node_labels
 
 }
