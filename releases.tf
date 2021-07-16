@@ -26,6 +26,10 @@ locals {
     }
   })
 
+  daemonset_release = yamlencode({
+    failOnInitError = false
+    nodeSelector    = local.gpu_node_labels
+  })
 }
 
 resource "helm_release" "cluster-autoscaler" {
@@ -50,8 +54,5 @@ resource "helm_release" "nvidia-plugin" {
   chart      = "nvidia-device-plugin"
 
   // Prevents it crashing on non-gpu nodes
-  values = yamlencode({
-    failOnInitError = false
-    nodeSelector    = local.gpu_node_labels
-  })
+  values = [local.daemonset_release]
 }
