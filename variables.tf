@@ -27,7 +27,7 @@ variable "deploy_autoscaler" {
 variable "ca_version" {
   type        = string
   description = "Cluster-autoscaler helm release version"
-  default     = "9.9.2"
+  default     = "9.10.4"
 }
 
 variable "autoscaler_tolerations" {
@@ -160,4 +160,10 @@ variable "gpu_node_labels" {
   default     = {}
   type        = map(string)
   description = "Node labels for Nvidia Daemon helm chart."
+}
+
+variable "args" {
+  default     = {}
+  description = "Extra args for cluster autoscaler"
+  type        = map(any)
 }
