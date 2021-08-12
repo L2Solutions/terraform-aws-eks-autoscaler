@@ -9,13 +9,13 @@ locals {
     "autoDiscovery" = {
       "clusterName" = local.cluster_id
     }
-    "extraArgs" = {
+    "extraArgs" = merge({
       "expander"                      = "priority"
       "balance-similar-node-groups"   = true
       "skip-nodes-with-system-pods"   = false
       "skip-nodes-with-local-storage" = false
       "expander"                      = "least-waste"
-    }
+    }, local.args),
     "rbac" = {
       "serviceAccount" = {
         "name" = "cluster-autoscaler"

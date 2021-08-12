@@ -46,6 +46,6 @@ module "this" {
     EOF
   )
 
-  tags = concat(each.value.tags, each.value.is_gpu ? local.gpu_tag : [])
+  tags = each.value.tags
 
 }

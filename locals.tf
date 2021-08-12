@@ -16,8 +16,10 @@ locals {
   instance_type           = var.instance_type
   root_block_device       = var.root_block_device
   security_group_ids      = var.security_group_ids
-  ami_gpu                 = "/aws/service/eks/optimized-ami/${local.cluster_version}/amazon-linux-2-gpu/recommended/image_id"
-  ami                     = "/aws/service/eks/optimized-ami/${local.cluster_version}/amazon-linux-2/recommended/image_id"
+  args                    = var.args
+
+  ami_gpu = "/aws/service/eks/optimized-ami/${local.cluster_version}/amazon-linux-2-gpu/recommended/image_id"
+  ami     = "/aws/service/eks/optimized-ami/${local.cluster_version}/amazon-linux-2/recommended/image_id"
   gpu_tag = [{
     key                 = "k8s.io/cluster-autoscaler/node-template/gpu-enabled"
     value               = "true"
@@ -81,7 +83,12 @@ locals {
         "key"                 = "k8s.io/cluster-autoscaler/node-template/taint/${key}"
         "value"               = "${val.value}:${val.effect}"
         "propagate_at_launch" = true
-      }]
+      }],
+      contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type) ? [{
+        key                 = "k8s.io/cluster-autoscaler/node-template/gpu-enabled"
+        value               = "true"
+        propagate_at_launch = true
+      }] : []
     )
   } }
 
