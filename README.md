@@ -1,3 +1,5 @@
+# MOVED TO OMNITEQ
+
 Deploys configures IAM roles that allow a kubernetes cluster autoscaler helm release to correctly autoscale a EKS cluster. Added support for Nvidia Daemonset Plugin. All ASG created will use latest AMIs based on cluster version. GPU enabled AMIs are auto detected when gpu enabled instance types are chosen.
 
 - [Registry](https://registry.terraform.io/modules/L2Solutions/eks-autoscaler/aws/latest)
