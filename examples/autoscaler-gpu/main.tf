@@ -59,20 +59,20 @@ module "autoscaler" {
       subnets     = [data.aws_subnet.east2a.id]
       node_labels = { "k8szone" = "favzone" } # arbitrary node labels
     },
-   {
+    {
       name          = "gpu"
       instance_type = "p2.xlarge"
       min_size      = 0
       max_size      = 1
       subnets       = [data.aws_subnet.east2a.id]
       node_labels = {
-        "resource"     = "gpu"
+        "resource" = "gpu"
       }
       taints = {
         "gpu-only" = {
-        value  = true
-        effect = "NoSchedule"
-      }}
+          value  = true
+          effect = "NoSchedule"
+      } }
     }
   ]
 
