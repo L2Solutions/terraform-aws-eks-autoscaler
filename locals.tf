@@ -84,10 +84,16 @@ locals {
         "value"               = "${val.value}:${val.effect}"
         "propagate_at_launch" = true
       }],
-      contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type) ? [{
-        key                 = "k8s.io/cluster-autoscaler/node-template/gpu-enabled"
-        value               = "true"
-        propagate_at_launch = true
+      contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type) ? [
+        {
+          key                 = "k8s.io/cluster-autoscaler/node-template/gpu-enabled"
+          value               = "true"
+          propagate_at_launch = true
+        },
+        {
+          key                 = "k8s.io/cluster-autoscaler/node-template/resources/nvidia.com/gpu"
+          value               = "1" // Only supported 1 gpu at the moment, will increase to more later
+          propagate_at_launch = true
       }] : []
     )
   } }
