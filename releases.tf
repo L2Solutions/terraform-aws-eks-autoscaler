@@ -10,7 +10,7 @@ locals {
       "clusterName" = local.cluster_id
     }
     "image" = {
-      tag = local.image_tag
+      tag = local.ca_image_tag
     }
     "extraArgs" = merge({
       "expander"                      = "priority"
