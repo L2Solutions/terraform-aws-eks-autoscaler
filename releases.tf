@@ -9,6 +9,9 @@ locals {
     "autoDiscovery" = {
       "clusterName" = local.cluster_id
     }
+    "image" = {
+      tag = local.image_tag
+    }
     "extraArgs" = merge({
       "expander"                      = "priority"
       "balance-similar-node-groups"   = true
