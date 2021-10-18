@@ -6,6 +6,7 @@ locals {
   deploy_autoscaler       = var.deploy_autoscaler
   worker_iam_role_name    = var.worker_iam_role_name
   ca_version              = var.ca_version
+  ca_image_tag            = var.ca_image_tag
   autoscaler_tolerations  = var.autoscaler_tolerations
   autoscaler_nodeselector = var.autoscaler_nodeselector
   autoscaler_namespace    = var.autoscaler_namespace

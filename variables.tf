@@ -30,6 +30,12 @@ variable "ca_version" {
   default     = "9.10.4"
 }
 
+variable "ca_image_tag" {
+  type        = string
+  description = "Cluster-autoscaler helm image tag. This is versioned differently than the image. Make sure to align this tag with your k8s version."
+  default     = "v1.20.1"
+}
+
 variable "autoscaler_tolerations" {
   type = list(object({
     key    = string
