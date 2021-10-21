@@ -38,12 +38,12 @@ module "this" {
 
   user_data_base64 = base64encode(
     <<EOF
-    #!/bin/bash
-    set -o xtrace
-    /etc/eks/bootstrap.sh ${local.cluster_id} \
-    --kubelet-extra-args \
-    '--node-labels=eks.amazonaws.com/nodegroup-image=${data.aws_ssm_parameter.this.value},${each.value.node_labels} ${join("=", [each.value.registertaints, each.value.taints])}'
-    EOF
+#!/bin/bash
+set -o xtrace
+/etc/eks/bootstrap.sh ${local.cluster_id} \
+--kubelet-extra-args \
+'--node-labels=eks.amazonaws.com/nodegroup-image=${each.value.is_gpu ? data.aws_ssm_parameter.this_gpu.value : data.aws_ssm_parameter.this.value},${each.value.node_labels} ${join("=", [each.value.registertaints, each.value.taints])}'
+EOF
   )
 
   tags = each.value.tags
