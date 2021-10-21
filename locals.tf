@@ -58,15 +58,16 @@ locals {
   ]
 
   groups = { for value in var.groups : value.name => {
-    subnets         = toset(value.subnets != null ? value.subnets : var.subnets)
-    node_labels     = join(",", [for key, val in merge(var.node_labels, value.node_labels) : "${key}=${val}"])
-    node_labels_raw = merge(var.node_labels, value.node_labels)
-    instance_type   = value.instance_type != null ? value.instance_type : var.instance_type
-    is_gpu          = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
-    min_size        = value.min_size != null ? value.min_size : local.min_size
-    max_size        = value.max_size != null ? value.max_size : local.max_size
-    taints          = join(",", [for key, val in merge(var.taints, value.taints) : "${key}=${val.value}:${val.effect}"])
-    registertaints  = merge(var.taints, value.taints) != null ? "--register-with-taints" : ""
+    subnets          = toset(value.subnets != null ? value.subnets : var.subnets)
+    node_labels      = join(",", [for key, val in merge(var.node_labels, value.node_labels) : "${key}=${val}"])
+    node_labels_raw  = merge(var.node_labels, value.node_labels)
+    instance_type    = value.instance_type != null ? value.instance_type : var.instance_type
+    is_gpu           = contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)
+    min_size         = value.min_size != null ? value.min_size : local.min_size
+    max_size         = value.max_size != null ? value.max_size : local.max_size
+    desired_capacity = value.desired_capacity // can keep null
+    taints           = join(",", [for key, val in merge(var.taints, value.taints) : "${key}=${val.value}:${val.effect}"])
+    registertaints   = merge(var.taints, value.taints) != null ? "--register-with-taints" : ""
 
     // Need to merge node labels and taints as tags so CA can see them on the ASG config
     tags = concat(

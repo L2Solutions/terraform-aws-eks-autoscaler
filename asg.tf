@@ -24,7 +24,7 @@ module "this" {
   health_check_type           = "EC2"
   min_size                    = each.value.min_size
   max_size                    = each.value.max_size
-  desired_capacity            = each.value.max_size // Set equal to max_size so we don't scale down instances in use
+  desired_capacity            = each.value.desired_capacity // Set equal to max_size so we don't scale down instances in use
   wait_for_capacity_timeout   = 0
   associate_public_ip_address = true
   iam_instance_profile_name   = aws_iam_instance_profile.this.name
