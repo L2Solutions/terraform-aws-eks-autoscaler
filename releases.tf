@@ -32,6 +32,7 @@ locals {
   daemonset_release = yamlencode({
     failOnInitError = false
     nodeSelector    = local.gpu_node_labels
+    tolerations     = local.daemonset_tolerations
   })
 }
 
