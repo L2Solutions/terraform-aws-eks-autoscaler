@@ -103,10 +103,9 @@ locals {
   gpu_node_labels = var.gpu_node_labels
 
   daemonset_tolerations = flatten([for value in var.groups : [for k, v in merge(var.taints, value.taints) : {
-    "key"      = k
-    "value"    = v.value
-    "effect"   = v.effect
-    "operator" = "Exists"
+    "key"    = k
+    "value"  = v.value
+    "effect" = v.effect
   }] if contains(local.gpu_instances, value.instance_type != null ? value.instance_type : var.instance_type)])
 
 }
