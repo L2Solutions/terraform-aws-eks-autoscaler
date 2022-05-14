@@ -100,6 +100,8 @@ Configures IAM roles that allows a Kubernetes cluster autoscaler helm release to
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.0.0 |
 
+=======
+>>>>>>> 3f22a35 (terraform-docs: automated action)
 ## Providers
 
 | Name | Version |
@@ -162,15 +164,8 @@ Configures IAM roles that allows a Kubernetes cluster autoscaler helm release to
 
 ## Outputs
 
->>>>>>> 00d00ee (Etesiai Migration Link (#6))
 | Name | Description |
 |------|-------------|
 | <a name="output_iam_role_arn"></a> [iam\_role\_arn](#output\_iam\_role\_arn) | ARN of IAM eks autoscaler role |
 | <a name="output_lc_test"></a> [lc\_test](#output\_lc\_test) | ARN of IAM eks autoscaler role |
 <!-- END_TF_DOCS -->
-<<<<<<< HEAD
-=======
-=======
-<!-- END_TF_DOCS -->
->>>>>>> fa5cd37 (Add auto tfdoc, CODEOWNERS)
->>>>>>> 34b2db9 (Add auto tfdoc, CODEOWNERS)
