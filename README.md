@@ -7,6 +7,8 @@ Configures IAM roles that allows a Kubernetes cluster autoscaler helm release to
 <https://registry.terraform.io/modules/etesiai/eks-autoscaler/aws/latest>
 
 Deploys configures IAM roles that allow a kubernetes cluster autoscaler helm release to correctly autoscale a EKS cluster. Added support for Nvidia Daemonset Plugin. All ASG created will use latest AMIs based on cluster version. GPU enabled AMIs are auto detected when gpu enabled instance types are chosen.
+=======
+Configures IAM roles that allows a Kubernetes cluster autoscaler helm release to correctly autoscale an EKS cluster. Added support for Nvidia Daemonset Plugin. All ASG created will use latest AMIs based on cluster version. GPU enabled AMIs are auto detected when GPU enabled instance types are chosen.
 
 - [Registry](https://registry.terraform.io/modules/OmniTeqSource/eks-autoscaler/aws/latest)
 
@@ -166,3 +168,9 @@ Deploys configures IAM roles that allow a kubernetes cluster autoscaler helm rel
 | <a name="output_iam_role_arn"></a> [iam\_role\_arn](#output\_iam\_role\_arn) | ARN of IAM eks autoscaler role |
 | <a name="output_lc_test"></a> [lc\_test](#output\_lc\_test) | ARN of IAM eks autoscaler role |
 <!-- END_TF_DOCS -->
+<<<<<<< HEAD
+=======
+=======
+<!-- END_TF_DOCS -->
+>>>>>>> fa5cd37 (Add auto tfdoc, CODEOWNERS)
+>>>>>>> 34b2db9 (Add auto tfdoc, CODEOWNERS)
