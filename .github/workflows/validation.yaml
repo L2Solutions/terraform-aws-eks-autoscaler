@@ -28,7 +28,7 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -check --recursive
 
-      - name: Terraform Validate Examples
+      - name: Terraform Validate Deploy Example
         working-directory: examples/autoscaler-deploy
         run: |
           terraform init -backend=false
