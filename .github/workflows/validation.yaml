@@ -1,23 +1,45 @@
-name: Terraform Validation
+name: Terraform Validate
 on:
-  [pull_request]
+  pull_request:
+    branches: [main]
 jobs:
-  terraform:
+  cli-validations:
     runs-on: ubuntu-latest
-    name: terraform-validate
-    defaults:
-      run:
-        working-directory: ./
+    name: Terraform cli validations
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Terraform Validation
+      - name: terraform-docs-gh-actions
+        uses: terraform-docs/gh-actions@v1.0.0
+        with:
+          working-dir: .
+          output-file: README.md
+          output-method: inject
+          git-push: "true"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1.3.2
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Format
+        run: terraform fmt -check --recursive
+
+      - name: Terraform Validate Deploy Example
+        working-directory: examples/autoscaler-deploy
         run: |
-          terraform fmt -check -recursive
+          terraform init -backend=false
+          terraform validate ./
+
+      - name: Terraform Validate GPU Example
+        working-directory: examples/autoscaler-gpu
+        run: |
+          terraform init -backend=false
+          terraform validate ./
 
       - name: Run Checkov action
         id: checkov
-        uses: bridgecrewio/checkov-action@v12.641.0
-        with:
-          directory: ./
+        uses: bridgecrewio/checkov-action@v12.1347.0
